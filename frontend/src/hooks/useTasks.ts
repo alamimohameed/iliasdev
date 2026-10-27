@@ -32,7 +32,7 @@ export function useCreateTask() {
 export function useUpdateTask() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, input }: { id: string; input: TaskInput }) => tasksService.update(id, input),
+    mutationFn: ({ id, input }: { id: number; input: TaskInput }) => tasksService.update(id, input),
     onSuccess: () => invalidateAll(qc),
   });
 }
@@ -40,7 +40,7 @@ export function useUpdateTask() {
 export function useDeleteTask() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => tasksService.remove(id),
+    mutationFn: (id: number) => tasksService.remove(id),
     onSuccess: () => invalidateAll(qc),
   });
 }
@@ -49,7 +49,7 @@ export function useDeleteTask() {
 export function useToggleTask() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => tasksService.toggleStatus(id),
+    mutationFn: (id: number) => tasksService.toggleStatus(id),
     onMutate: async (id) => {
       await qc.cancelQueries({ queryKey: taskKeys.all });
       const snapshots = qc.getQueriesData<Task[]>({ queryKey: taskKeys.all });
