@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-3xl border border-line bg-white shadow-[0_1px_2px_rgba(29,27,24,0.04)];
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-ink px-4 py-2.5 text-sm font-semibold text-paper transition hover:bg-ink/85 active:scale-[0.98] disabled:opacity-50;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-full border border-line bg-white px-3 py-2 text-sm font-medium text-ink transition hover:border-ink/30 hover:bg-paper disabled:opacity-50;
+  }
+  .btn-icon {
+    @apply grid h-9 w-9 place-items-center rounded-full border border-line bg-white text-ink transition hover:border-ink/30 hover:bg-paper;
+  }
+  .field-label {
+    @apply mb-1.5 block text-xs font-semibold uppercase tracking-wider text-ink/55;
+  }
+  .input {
+    @apply w-full rounded-xl border border-line bg-paper/60 px-3 py-2.5 text-sm outline-none transition placeholder:text-ink/35 focus:border-ink/40 focus:bg-white focus:ring-4 focus:ring-ink/5;
+  }
+}
+
+/* Confettis du widget de récompense */
+@keyframes confetti {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--x), var(--y)) rotate(var(--r));
+    opacity: 0;
+  }
+}
+.confetti-piece {
+  animation: confetti 1.5s cubic-bezier(0.15, 0.7, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .confetti-piece {
+    display: none;
+  }
+}
