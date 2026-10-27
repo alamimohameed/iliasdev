@@ -4,7 +4,7 @@ export type CalendarViewMode = 'day' | 'week' | 'month' | 'tracking';
 
 /** Miroir de la table `tasks`. Dates en `YYYY-MM-DD`, heures en `HH:MM`. */
 export interface Task {
-  id: string;
+  id: number;
   title: string;
   description: string | null;
   date: string;
@@ -33,7 +33,7 @@ export interface TaskInput {
 
 /** Miroir de la table `weekly_rewards` (le quota est calculé, pas stocké). */
 export interface WeeklyReward {
-  id: string;
+  id: number;
   year: number;
   week_number: number;
   reward_title: string;

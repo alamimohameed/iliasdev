@@ -1,13 +1,7 @@
 import type { Task, TaskStats, TaskType, TypeBreakdown } from '../types';
-import { fromISODate, isoWeekOf } from './date';
 
 /** Miroir de `REWARD_TARGET_RATIO` côté backend, exprimé en pourcentage entier. */
 export const REWARD_TARGET_PERCENT = 80;
-
-// Calcul entier pour éviter les erreurs d'arrondi flottant (0.8 × 35 = 28.000000000000004).
-export const targetPoints = (plannedPoints: number) => Math.ceil((plannedPoints * REWARD_TARGET_PERCENT) / 100);
-
-export const isUnlocked = (donePoints: number, target: number) => target > 0 && donePoints >= target;
 
 /** Rang d'affichage : urgentes sans horaire en tête, puis tâches horodatées, puis le reste. */
 const displayRank = (t: Task) => (t.start_time ? 1 : t.task_type === 'urgent' ? 0 : 2);
@@ -23,12 +17,6 @@ export function compareTasks(a: Task, b: Task) {
 export const sumWeights = (tasks: Task[]) => tasks.reduce((sum, t) => sum + t.weight, 0);
 
 export const donePoints = (tasks: Task[]) => sumWeights(tasks.filter((t) => t.is_done));
-
-export const tasksOfWeek = (tasks: Task[], year: number, week: number) =>
-  tasks.filter((t) => {
-    const w = isoWeekOf(fromISODate(t.date));
-    return w.year === year && w.week === week;
-  });
 
 export const rate = (done: number, total: number) => (total > 0 ? Math.round((done / total) * 100) : 0);
 

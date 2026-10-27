@@ -1,4 +1,3 @@
-import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { CalendarView } from './components/calendar/CalendarView';
 import { Header } from './components/Header';
@@ -8,7 +7,6 @@ import { TaskItem } from './components/TaskItem';
 import { TaskModal, type TaskDraft } from './components/TaskModal';
 import { useWeeklyReward } from './hooks/useRewards';
 import { useTasks } from './hooks/useTasks';
-import { resetDb } from './services/mockDb';
 import type { CalendarViewMode, Task } from './types';
 import { getRange, isoWeekOf, toISODate } from './utils/date';
 import { TASK_TYPE_META, TASK_TYPES } from './utils/tasks';
@@ -16,7 +14,6 @@ import { TASK_TYPE_META, TASK_TYPES } from './utils/tasks';
 type TaskModalState = { task?: Task; draft?: TaskDraft } | null;
 
 export default function App() {
-  const qc = useQueryClient();
   const [view, setView] = useState<CalendarViewMode>('week');
   const [cursor, setCursor] = useState(() => new Date());
   const [taskModal, setTaskModal] = useState<TaskModalState>(null);
@@ -34,12 +31,6 @@ export default function App() {
 
   const openCreate = (draft?: TaskDraft) => setTaskModal({ draft: draft ?? { date: toISODate(view === 'day' ? cursor : new Date()) } });
   const openEdit = (task: Task) => setTaskModal({ task });
-
-  const handleReset = () => {
-    if (!window.confirm('Réinitialiser toutes les données de démonstration ?')) return;
-    resetDb();
-    qc.invalidateQueries();
-  };
 
   return (
     <div className="min-h-screen">
@@ -92,13 +83,6 @@ export default function App() {
               ))}
             </ul>
           </section>
-
-          <p className="px-1 text-xs text-ink/40">
-            Mode démo : données fictives stockées dans votre navigateur.{' '}
-            <button type="button" onClick={handleReset} className="underline underline-offset-2 hover:text-ink">
-              Réinitialiser
-            </button>
-          </p>
         </aside>
       </main>
 
